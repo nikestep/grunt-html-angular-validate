@@ -87,7 +87,6 @@ module.exports = function(grunt) {
         }
 
         var checkRelaxed = function(errmsg) {
-            grunt.log.writeln('checkRelaxed');
             for (var i = 0; i < options.relaxerror.length; i += 1) {
                 var re = new RegExp(options.relaxerror[i], 'g');
                 if (re.test(errmsg)) {
@@ -98,7 +97,6 @@ module.exports = function(grunt) {
         };
 
         var checkCustomTags = function(errmsg) {
-            grunt.log.writeln('checkCustomTags');
             for (var i = 0; i < options.customtags.length; i += 1) {
                 var re = new RegExp('^Element ' +
                                     options.customtags[i] +
@@ -111,7 +109,6 @@ module.exports = function(grunt) {
         };
 
         var checkCustomAttrs = function(errmsg) {
-            grunt.log.writeln('checkCustomAttrs');
             for (var i = 0; i < options.customattrs.length; i += 1) {
                 var re = new RegExp('^Attribute ' +
                                     options.customattrs[i] +
