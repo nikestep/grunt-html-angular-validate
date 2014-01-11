@@ -32,9 +32,11 @@ module.exports = function(grunt) {
             reportpath: 'htmlint-report.json'
         });
 
-        // Add a regex to customattrs for ng-* attributes
+        // Add attributes to ignore if this is for AngularJS
         if (options.angular) {
+            options.customtags.push('ng-(.*)');
             options.customattrs.push('ng-(.*)');
+            options.customattrs.push('on');
         }
 
         // Delete an exist report if present
