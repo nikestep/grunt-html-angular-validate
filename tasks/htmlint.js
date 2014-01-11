@@ -35,7 +35,8 @@ module.exports = function(grunt) {
             customattrs: [],
             relaxerror: [],
             doctype: 'HTML5',
-            charset: 'utf-8'
+            charset: 'utf-8',
+            reportpath: 'htmlint-report.json'
         });
 
         // Add a regex to customattrs for ng-* attributes
@@ -43,18 +44,24 @@ module.exports = function(grunt) {
             options.customattrs.push('ng-(.*)');
         }
 
+        // Delete an exist report if present
+        if (options.reportpath !== null && grunt.file.exists(options.reportpath)) {
+            grunt.file.delete(options.reportpath);
+        }
+
         // Force task into async mode and grab a handle to the "done" function.
         var done = this.async();
 
         // Set up the linked list for processing
-        var count = 0,
+        var fileCount = 0,
             list = {
                 head: null,
                 tail: null
             },
-            succeedCount = 0;
+            succeedCount = 0,
+            reportTime = new Date();
 
-        // Iterate over all specified file groups.
+        // Iterate over all specified file groups
         this.files.forEach(function(f) {
             // Build the list of files to validate
             f.src.filter(function(filepath) {
@@ -64,7 +71,7 @@ module.exports = function(grunt) {
                     return false;
                 } else {
                     // Add the file to the list
-                    count += 1;
+                    fileCount += 1;
                     if (list.head === null) {
                         list.head = {
                             path: filepath,
@@ -85,7 +92,7 @@ module.exports = function(grunt) {
         });
 
         // Check that we got files
-        if (count === 0) { 
+        if (fileCount === 0) { 
             grunt.log.warn('No source files were found');
             done();
             return;
@@ -125,6 +132,76 @@ module.exports = function(grunt) {
             return false;
         };
 
+        var logErrMsg = function(file, msg) {
+            // If we haven't logged this file before, write the starting line,
+            // prep the file object is necessary, and mark that we've seen it
+            if (file.seenerrs === undefined) {
+                file.seenerrs = true;
+                file.errs = [];
+                grunt.log.writeln('Linting ' +
+                                  file.path +
+                                  ' ...' +
+                                  'ERROR'.red);
+            }
+
+            // Log error message to console
+            grunt.log.writeln('['.red +
+                              'L'.yellow +
+                              ('' + msg.lastLine).yellow +
+                              ':'.red +
+                              'C'.yellow +
+                              ('' + msg.lastColumn).yellow +
+                              '] '.red +
+                              msg.message.yellow);
+
+            // If we are expected to write a report, add to the error array
+            if (options.reportpath !== null) {
+                file.errs.push({
+                    line: msg.lastLine,
+                    col: msg.lastColumn,
+                    msg: msg.message
+                });
+            }
+        };
+
+        var finished = function() {
+            // Output report if necessary
+            if (options.reportpath !== null) {
+                // Build report
+                var report = {
+                    datetime: reportTime,
+                    fileschecked: fileCount,
+                    filessucceeded: succeedCount,
+                    failed: []
+                };
+
+                var next = list.head;
+                while (next !== null) {
+                    if (next.errs !== undefined) {
+                        report.failed.push({
+                            filepath: next.path,
+                            numerrs: next.errs.length,
+                            errors: next.errs
+                        });
+                    }
+                    next = next.next;
+                }
+
+                // Write the report out
+                grunt.file.write(options.reportpath, JSON.stringify(report));
+            }
+
+            // Finished, let user and grunt know how it went
+            if (succeedCount === fileCount) {
+                grunt.log.oklns(succeedCount + ' files lint free');
+                done();
+            }
+            else {
+                grunt.fail.warn('HTML validation failed');
+                done(false);
+            }
+        };
+
         var validate = function(file) {
             var results = w3cjs.validate({
                 file: file.path,
@@ -136,39 +213,22 @@ module.exports = function(grunt) {
                     if (res.messages.length === 0) {
                         succeedCount += 1;
                     } else {
-                        grunt.log.writeln('Linting ' +
-                                          file.path +
-                                          ' ...' +
-                                          'ERROR'.red);
                         for (var i = 0; i < res.messages.length; i += 1) {
                             // See if we should skip this error message
                             if (checkRelaxed(res.messages[i].message) ||
                                 checkCustomTags(res.messages[i].message) ||
                                 checkCustomAttrs(res.messages[i].message)) {
-                                grunt.log.errorlns('Supressing further errors');
+                                // Skip message (it is allowed)
                             } else {
-                                grunt.log.writeln('['.red +
-                                                  'L'.yellow +
-                                                  ('' + res.messages[i].lastLine).yellow +
-                                                  ':'.red +
-                                                  'C'.yellow +
-                                                  ('' + res.messages[i].lastColumn).yellow +
-                                                  '] '.red +
-                                                  res.messages[i].message.yellow);
+                                // Log the error message
+                                logErrMsg(file, res.messages[i]);
                             }
                         }
                     }
 
                     // Move on to next file or finish
                     if (file.next === null) {
-                        if (succeedCount === count) {
-                            grunt.log.oklns(succeedCount + ' files lint free');
-                            done();
-                        }
-                        else {
-                            grunt.fail.warn('HTML validation failed');
-                            done(false);
-                        }
+                        finished();
                     } else {
                         validate(file.next);
                     }
