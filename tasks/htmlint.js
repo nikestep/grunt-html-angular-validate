@@ -14,6 +14,11 @@ module.exports = function(grunt) {
     var colors = require('colors');
     var tmp = require('temporary');
 
+    // Prototype string with an endsWith function
+    String.prototype.endsWith = function(suffix) {
+        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+
     grunt.registerMultiTask('htmlint', 'An HTML5 linter aimed at AngularJS projects.', function() {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
@@ -21,6 +26,7 @@ module.exports = function(grunt) {
             customtags: [],
             customattrs: [],
             relaxerror: [],
+            tmplext: 'tmpl.html',
             doctype: 'HTML5',
             charset: 'utf-8',
             reportpath: 'htmlint-report.json'
@@ -55,11 +61,15 @@ module.exports = function(grunt) {
                 // Warn that the file cannot be found
                 grunt.log.warn('Source file "' + files[i] + '" not found.');
             } else {
+                // Detect if template file
+                var tmpl = files[i].endsWith(options.tmplext);
+
                 // Add the file to the list
                 fileCount += 1;
                 if (list.head === null) {
                     list.head = {
                         path: files[i],
+                        istmpl: tmpl,
                         next: null
                     };
                     list.tail = list.head;
@@ -67,6 +77,7 @@ module.exports = function(grunt) {
                 else {
                     list.tail.next = {
                         path: files[i],
+                        istmpl: tmpl,
                         next: null
                     };
                     list.tail = list.tail.next;
@@ -186,8 +197,27 @@ module.exports = function(grunt) {
         };
 
         var validate = function(file) {
+            var temppath = file.path;
+
+            // If this is a templated file, we need to wrap it as a full
+            // document in a temporary file
+            if (file.istmpl) {
+                // Create a temporary file
+                var tfile = new tmp.File();
+
+                // Store temp path as one to pass to validator
+                temppath = tfile.path;
+
+                // Build temporary file
+                grunt.file.write (temppath,
+                                  '<!DOCTYPE html>\n<html>\n<head><title>Dummy</title></head>\n<body>\n' +
+                                  grunt.file.read(file.path) +
+                                  '\n</body>\n</html>');
+            }
+
+            // Do validation
             var results = w3cjs.validate({
-                file: file.path,
+                file: temppath,
                 output: 'json',
                 doctype: options.doctype,
                 charset: options.charset,
@@ -210,6 +240,11 @@ module.exports = function(grunt) {
                     // Count file as succeed if it did in fact succeed
                     if (!errFound) {
                         succeedCount += 1;
+                    }
+
+                    // Clean up temporary file if needed
+                    if (file.istmpl) {
+                        tfile.unlink();
                     }
 
                     // Move on to next file or finish
