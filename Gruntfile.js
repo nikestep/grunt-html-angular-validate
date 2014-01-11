@@ -34,8 +34,8 @@ module.exports = function(grunt) {
                 options: {
                 },
                 files: {
-                    'tmp/default_options': ['test/html/**/*.html'],
-                },
+                    src: ['test/html/**/*.html']
+                }
             },
             custom_options: {
                 options: {
@@ -43,8 +43,8 @@ module.exports = function(grunt) {
                     punctuation: ' !!!',
                 },
                 files: {
-                    'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-                },
+                    src: ['test/fixtures/testing', 'test/fixtures/123']
+                }
             },
         },
 

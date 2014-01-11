@@ -62,34 +62,30 @@ module.exports = function(grunt) {
             reportTime = new Date();
 
         // Iterate over all specified file groups
-        this.files.forEach(function(f) {
-            // Build the list of files to validate
-            f.src.filter(function(filepath) {
-                if (!grunt.file.exists(filepath)) {
-                    // Warn that the file cannot be found
-                    grunt.log.warn('Source file "' + filepath + '" not found.');
-                    return false;
-                } else {
-                    // Add the file to the list
-                    fileCount += 1;
-                    if (list.head === null) {
-                        list.head = {
-                            path: filepath,
-                            next: null
-                        };
-                        list.tail = list.head;
-                    }
-                    else {
-                        list.tail.next = {
-                            path: filepath,
-                            next: null
-                        };
-                        list.tail = list.tail.next;
-                    }
-                    return true;
+        var files = grunt.file.expand(this.filesSrc);
+        for (var i = 0; i < files.length; i += 1) {
+            if (!grunt.file.exists(files[i])) {
+                // Warn that the file cannot be found
+                grunt.log.warn('Source file "' + files[i] + '" not found.');
+            } else {
+                // Add the file to the list
+                fileCount += 1;
+                if (list.head === null) {
+                    list.head = {
+                        path: files[i],
+                        next: null
+                    };
+                    list.tail = list.head;
                 }
-            });
-        });
+                else {
+                    list.tail.next = {
+                        path: files[i],
+                        next: null
+                    };
+                    list.tail = list.tail.next;
+                }
+            }
+        }
 
         // Check that we got files
         if (fileCount === 0) { 
