@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 
         // Force task into async mode and grab a handle to the "done" function.
         var done = this.async();
-        
+
         // Set up the linked list for processing
         var count = 0,
             list = {
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
                 }
             });
         });
-        
+
         // Check that we got files
         if (count === 0) { 
             grunt.log.warn('No source files were found');
