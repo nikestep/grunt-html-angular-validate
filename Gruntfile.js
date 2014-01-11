@@ -34,7 +34,7 @@ module.exports = function(grunt) {
                 options: {
                 },
                 files: {
-                    'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
+                    'tmp/default_options': ['test/html/*.html'],
                 },
             },
             custom_options: {
