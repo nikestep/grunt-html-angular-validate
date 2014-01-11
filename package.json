@@ -1,6 +1,6 @@
 {
     "name": "grunt-htmlint",
-    "description": "An HTML5 linter aimed at AngularJS projects.",
+    "description": "An HTML validator and linter aimed at AngularJS projects.",
     "version": "0.1.0",
     "homepage": "https://github.com/nikestep/grunt-htmlint",
     "author": {
