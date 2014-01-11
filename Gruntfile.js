@@ -32,6 +32,8 @@ module.exports = function(grunt) {
         htmlint: {
             default_options: {
                 options: {
+                    customtags: ['custom-tag'],
+                    customattrs: ['fixed-div-label']
                 },
                 files: {
                     src: ['test/html/**/*.html']
@@ -39,8 +41,7 @@ module.exports = function(grunt) {
             },
             custom_options: {
                 options: {
-                    separator: ': ',
-                    punctuation: ' !!!',
+
                 },
                 files: {
                     src: ['test/fixtures/testing', 'test/fixtures/123']
