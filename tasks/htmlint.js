@@ -10,6 +10,23 @@
 
 module.exports = function(grunt) {
 
+    var w3cjs = require('w3cjs');
+    var colors = require('colors');
+
+    colors.setTheme({
+        silly: 'rainbow',
+        input: 'grey',
+        verbose: 'cyan',
+        prompt: 'grey',
+        info: 'green',
+        data: 'grey',
+        help: 'cyan',
+        warn: 'yellow',
+        debug: 'blue',
+        error: 'red',
+        blue: 'blue'
+    });
+
     grunt.registerMultiTask('htmlint', 'An HTML5 linter aimed at AngularJS projects.', function() {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
