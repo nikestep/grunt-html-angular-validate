@@ -112,6 +112,9 @@ module.exports = function(grunt) {
                         if (succeedCount === count) {
                             grunt.log.oklns(succeedCount + ' files lint free');
                         }
+                        else {
+                            grunt.fail.warn('HTML validation failed');
+                        }
                         done();
                     } else {
                         validate(file.next);
