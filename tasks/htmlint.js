@@ -28,36 +28,84 @@ module.exports = function(grunt) {
     });
 
     grunt.registerMultiTask('htmlint', 'An HTML5 linter aimed at AngularJS projects.', function() {
-        // Merge task-specific and/or target-specific options with these defaults.
-        var options = this.options({
-            punctuation: '.',
-            separator: ', '
-        });
+        // Force task into async mode and grab a handle to the "done" function.
+        var done = this.async();
+        
+        // Set up the linked list for processing
+        var count = 0,
+            list = {
+                head: null,
+                tail: null
+            },
+            succeedCount = 0;
 
         // Iterate over all specified file groups.
         this.files.forEach(function(f) {
-            // Concat specified files.
-            var src = f.src.filter(function(filepath) {
-                // Warn on and remove invalid source files (if nonull was set).
+            // Build the list of files to validate
+            f.src.filter(function(filepath) {
                 if (!grunt.file.exists(filepath)) {
+                    // Warn that the file cannot be found
                     grunt.log.warn('Source file "' + filepath + '" not found.');
                     return false;
                 } else {
+                    // Add the file to the list
+                    count += 1;
+                    if (list.head === null) {
+                        list.head = {
+                            path: filepath,
+                            next: null
+                        };
+                        list.tail = list.head;
+                    }
+                    else {
+                        list.tail.next = {
+                            path: filepath,
+                            next: null
+                        };
+                        list.tail = list.tail.next;
+                    }
                     return true;
                 }
-            }).map(function(filepath) {
-                // Read file source.
-                return grunt.file.read(filepath);
-            }).join(grunt.util.normalizelf(options.separator));
-
-            // Handle options.
-            src += options.punctuation;
-
-            // Write the destination file.
-            grunt.file.write(f.dest, src);
-
-            // Print a success message.
-            grunt.log.writeln('File "' + f.dest + '" created.');
+            });
         });
+        
+        // Check that we got files
+        if (count === 0) { 
+            grunt.log.warn('No source files were found');
+            done();
+            return;
+        }
+        
+        var validate = function(file) {
+            var results = w3cjs.validate({
+                file: file.path, // file can either be a local file or a remote file
+                output: 'json', // Defaults to 'json', other option includes html
+                doctype: 'HTML5', // Defaults false for autodetect
+                charset: 'utf-8', // Defaults false for autodetect
+                callback: function (res) {
+                    // Handle results
+                    if (res.messages.length === 0) {
+                        succeedCount += 1;
+                    } else {
+                        grunt.log.write('Linting ' + file.path + ' ...');
+                        grunt.log.errorlns('ERROR');
+                    }
+
+                    // Move on to next file or finish
+                    if (file.next === null) {
+                        if (succeedCount === count) {
+                            grunt.log.oklns(succeedCount + ' files lint free');
+                        }
+                        done();
+                    } else {
+                        validate(file.next);
+                    }
+                    // depending on the output type, res will either be a json object or a html string
+                }
+            });
+        };
+
+        // Start the validation
+        validate(list.head);
     });
 };
