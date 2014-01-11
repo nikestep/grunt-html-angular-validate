@@ -210,20 +210,23 @@ module.exports = function(grunt) {
                 charset: options.charset,
                 callback: function (res) {
                     // Handle results
-                    if (res.messages.length === 0) {
-                        succeedCount += 1;
-                    } else {
-                        for (var i = 0; i < res.messages.length; i += 1) {
-                            // See if we should skip this error message
-                            if (checkRelaxed(res.messages[i].message) ||
-                                checkCustomTags(res.messages[i].message) ||
-                                checkCustomAttrs(res.messages[i].message)) {
-                                // Skip message (it is allowed)
-                            } else {
-                                // Log the error message
-                                logErrMsg(file, res.messages[i]);
-                            }
+                    var errFound = false;
+                    for (var i = 0; i < res.messages.length; i += 1) {
+                        // See if we should skip this error message
+                        if (checkRelaxed(res.messages[i].message) ||
+                            checkCustomTags(res.messages[i].message) ||
+                            checkCustomAttrs(res.messages[i].message)) {
+                            // Skip message (it is allowed)
+                        } else {
+                            // Log the error message
+                            errFound = true;
+                            logErrMsg(file, res.messages[i]);
                         }
+                    }
+
+                    // Count file as succeed if it did in fact succeed
+                    if (!errFound) {
+                        succeedCount += 1;
                     }
 
                     // Move on to next file or finish
