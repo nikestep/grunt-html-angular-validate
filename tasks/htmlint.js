@@ -38,6 +38,11 @@ module.exports = function(grunt) {
             charset: 'utf-8'
         });
 
+        // Add a regex to customattrs for ng-* attributes
+        if (options.angular) {
+            options.customattrs.push('ng-(.*)');
+        }
+
         // Force task into async mode and grab a handle to the "done" function.
         var done = this.async();
 
