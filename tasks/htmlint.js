@@ -85,7 +85,44 @@ module.exports = function(grunt) {
             done();
             return;
         }
-        
+
+        var checkRelaxed = function(errmsg) {
+            grunt.log.writeln('checkRelaxed');
+            for (var i = 0; i < options.relaxerror.length; i += 1) {
+                var re = new RegExp(options.relaxerror[i], 'g');
+                if (re.test(errmsg)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        var checkCustomTags = function(errmsg) {
+            grunt.log.writeln('checkCustomTags');
+            for (var i = 0; i < options.customtags.length; i += 1) {
+                var re = new RegExp('^Element ' +
+                                    options.customtags[i] +
+                                    ' not allowed as child (.*)');
+                if (re.test(errmsg)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        var checkCustomAttrs = function(errmsg) {
+            grunt.log.writeln('checkCustomAttrs');
+            for (var i = 0; i < options.customattrs.length; i += 1) {
+                var re = new RegExp('^Attribute ' +
+                                    options.customattrs[i] +
+                                    ' not allowed on element (.*) at this point.');
+                if (re.test(errmsg)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
         var validate = function(file) {
             var results = w3cjs.validate({
                 file: file.path,
@@ -102,7 +139,10 @@ module.exports = function(grunt) {
                                           ' ...' +
                                           'ERROR'.red);
                         for (var i = 0; i < res.messages.length; i += 1) {
-                            if (res.messages[i].message === '(Suppressing further errors from this subtree.)') {
+                            // See if we should skip this error message
+                            if (checkRelaxed(res.messages[i].message) ||
+                                checkCustomTags(res.messages[i].message) ||
+                                checkCustomAttrs(res.messages[i].message)) {
                                 grunt.log.errorlns('Supressing further errors');
                             } else {
                                 grunt.log.writeln('['.red +
