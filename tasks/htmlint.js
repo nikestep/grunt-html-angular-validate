@@ -87,8 +87,24 @@ module.exports = function(grunt) {
                     if (res.messages.length === 0) {
                         succeedCount += 1;
                     } else {
-                        grunt.log.write('Linting ' + file.path + ' ...');
-                        grunt.log.errorlns('ERROR');
+                        grunt.log.writeln('Linting ' +
+                                          file.path +
+                                          ' ...' +
+                                          'ERROR'.red);
+                        for (var i = 0; i < res.messages.length; i++) {
+                            if (res.messages[i].message === '(Suppressing further errors from this subtree.)') {
+                                grunt.log.errorlns('Supressing further errors');
+                            } else {
+                                grunt.log.writeln('['.red +
+                                                  'L'.yellow +
+                                                  ('' + res.messages[i].lastLine).yellow +
+                                                  ':'.red +
+                                                  'C'.yellow +
+                                                  ('' + res.messages[i].lastColumn).yellow +
+                                                  '] '.red +
+                                                  res.messages[i].message.yellow);
+                            }
+                        }
                     }
 
                     // Move on to next file or finish
