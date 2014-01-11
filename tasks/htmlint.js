@@ -88,10 +88,10 @@ module.exports = function(grunt) {
         
         var validate = function(file) {
             var results = w3cjs.validate({
-                file: file.path, // file can either be a local file or a remote file
-                output: 'json', // Defaults to 'json', other option includes html
-                doctype: 'HTML5', // Defaults false for autodetect
-                charset: 'utf-8', // Defaults false for autodetect
+                file: file.path,
+                output: 'json',
+                doctype: options.doctype,
+                charset: options.charset,
                 callback: function (res) {
                     // Handle results
                     if (res.messages.length === 0) {
