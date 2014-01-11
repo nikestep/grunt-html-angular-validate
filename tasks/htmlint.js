@@ -28,6 +28,16 @@ module.exports = function(grunt) {
     });
 
     grunt.registerMultiTask('htmlint', 'An HTML5 linter aimed at AngularJS projects.', function() {
+        // Merge task-specific and/or target-specific options with these defaults.
+        var options = this.options({
+            angular: true,
+            customtags: [],
+            customattrs: [],
+            relaxerror: [],
+            doctype: 'HTML5',
+            charset: 'utf-8'
+        });
+
         // Force task into async mode and grab a handle to the "done" function.
         var done = this.async();
         
