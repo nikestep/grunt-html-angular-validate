@@ -91,7 +91,7 @@ module.exports = function(grunt) {
                                           file.path +
                                           ' ...' +
                                           'ERROR'.red);
-                        for (var i = 0; i < res.messages.length; i++) {
+                        for (var i = 0; i < res.messages.length; i += 1) {
                             if (res.messages[i].message === '(Suppressing further errors from this subtree.)') {
                                 grunt.log.errorlns('Supressing further errors');
                             } else {
