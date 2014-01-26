@@ -198,6 +198,22 @@ module.exports = function(grunt) {
             }
         };
 
+        var lint = function(file) {
+            var errFound = false;
+
+            // Increase the success count if no lint errors were found
+            if (!errFound) {
+                succeedCount += 1;
+            }
+
+            // Move on to next file or finish
+            if (file.next === null) {
+                finished();
+            } else {
+                validate(file.next);
+            }
+        };
+
         var validate = function(file) {
             var temppath = file.path;
 
@@ -239,23 +255,23 @@ module.exports = function(grunt) {
                         }
                     }
 
-                    // Count file as succeed if it did in fact succeed
-                    if (!errFound) {
-                        succeedCount += 1;
-                    }
-
                     // Clean up temporary file if needed
                     if (file.istmpl) {
                         tfile.unlink();
                     }
 
-                    // Move on to next file or finish
-                    if (file.next === null) {
-                        finished();
+                    // If no errors were found, proceed to lint the file
+                    // Otherwise, do cleanup and go on to next file
+                    if (!errFound) {
+                        lint(file);
                     } else {
-                        validate(file.next);
+                        // Move on to next file or finish
+                        if (file.next === null) {
+                            finished();
+                        } else {
+                            validate(file.next);
+                        }
                     }
-                    // depending on the output type, res will either be a json object or a html string
                 }
             });
         };
