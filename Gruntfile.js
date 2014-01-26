@@ -38,15 +38,7 @@ module.exports = function(grunt) {
                 files: {
                     src: ['test/html/**/*.html']
                 }
-            },
-            custom_options: {
-                options: {
-
-                },
-                files: {
-                    src: ['test/fixtures/testing', 'test/fixtures/123']
-                }
-            },
+            }
         },
 
         // Unit tests.
