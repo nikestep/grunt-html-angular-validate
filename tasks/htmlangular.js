@@ -1,6 +1,6 @@
 /*
- * grunt-htmlint
- * https://github.com/nikestep/grunt-htmlint
+ * grunt-html-angular-validate
+ * https://github.com/nikestep/grunt-html-angular-validate
  *
  * Copyright (c) 2014 Nik Estep
  * Licensed under the MIT license.
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
 
-    grunt.registerMultiTask('htmlint', 'An HTML5 linter aimed at AngularJS projects.', function() {
+    grunt.registerMultiTask('htmlangular', 'An HTML5 validator aimed at AngularJS projects.', function() {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
             angular: true,
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
             tmplext: 'tmpl.html',
             doctype: 'HTML5',
             charset: 'utf-8',
-            reportpath: 'htmlint-report.json'
+            reportpath: 'html-angular-validate-report.json'
         });
 
         // Add attributes to ignore if this is for AngularJS
@@ -198,22 +198,6 @@ module.exports = function(grunt) {
             }
         };
 
-        var lint = function(file) {
-            var errFound = false;
-
-            // Increase the success count if no lint errors were found
-            if (!errFound) {
-                succeedCount += 1;
-            }
-
-            // Move on to next file or finish
-            if (file.next === null) {
-                finished();
-            } else {
-                validate(file.next);
-            }
-        };
-
         var validate = function(file) {
             var temppath = file.path;
 
@@ -260,17 +244,16 @@ module.exports = function(grunt) {
                         tfile.unlink();
                     }
 
-                    // If no errors were found, proceed to lint the file
-                    // Otherwise, do cleanup and go on to next file
+                    // Increase the success count if no lint errors were found
                     if (!errFound) {
-                        lint(file);
+                        succeedCount += 1;
+                    }
+
+                    // Move on to next file or finish
+                    if (file.next === null) {
+                        finished();
                     } else {
-                        // Move on to next file or finish
-                        if (file.next === null) {
-                            finished();
-                        } else {
-                            validate(file.next);
-                        }
+                        validate(file.next);
                     }
                 }
             });

@@ -1,6 +1,6 @@
 /*
- * grunt-htmlint
- * https://github.com/nikestep/grunt-htmlint
+ * grunt-html-angular-validate
+ * https://github.com/nikestep/grunt-html-angular-validate
  *
  * Copyright (c) 2014 Nik Estep
  * Licensed under the MIT license.
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         },
 
         // Configuration to be run (and then tested).
-        htmlint: {
+        htmlangular: {
             default_options: {
                 options: {
                     customtags: ['custom-tag'],
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('test', ['clean', 'htmlint', 'nodeunit']);
+    grunt.registerTask('test', ['clean', 'htmlangular', 'nodeunit']);
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);

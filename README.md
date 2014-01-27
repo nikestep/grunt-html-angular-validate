@@ -1,12 +1,11 @@
-# grunt-htmlint
+# grunt-html-angular-validate
 
-> An HTML validator and linter aimed at AngularJS projects.
+> An HTML validator aimed at AngularJS projects.
 
-While there are other Grunt plugins that will validate HTML files, there are lacking a few features:
+While there are other Grunt plugins that will validate HTML files, there are lacking a couple important features:
 
  * Support for AngularJS attributes and tags (both from AngularJS and custom created)
  * Support for templated/fragmented HTML files
- * Linting of HTML files
 
 This plugin looks to solve these problems and provide the value that comes with having HTML validation in the build chain.
 
@@ -16,23 +15,23 @@ This plugin requires Grunt `~0.4.1`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-htmlint --save-dev
+npm install grunt-html-angular-validate --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-htmlint');
+grunt.loadNpmTasks('grunt-html-angular-validate');
 ```
 
-## The "htmlint" task
+## The "htmlangular" task
 
 ### Overview
-In your project's Gruntfile, add a section named `htmlint` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `htmlangular` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  htmlint: {
+  htmlangular: {
     options: {
       // Task-specific options go here.
     },
@@ -89,7 +88,7 @@ The charset to use when validating HTML files. Set to `false` to have the valida
 
 ###options.reportpath
 Type: `String`
-Default value: `htmlint-report.json`
+Default value: `html-angular-validate-report.json`
 
 The path to write a JSON report of validation and linting output to after completion. Set to `null` to not create this file.
 
@@ -100,7 +99,7 @@ In this example, the default options are used to do something with whatever. So 
 
 ```js
 grunt.initConfig({
-  htmlint: {
+  htmlangular: {
     options: {
         tmplext: 'html.tmpl',
         customtags: [
@@ -116,7 +115,7 @@ grunt.initConfig({
         relaxerror: [
             'The frameborder attribute on the iframe element is obsolete. Use CSS instead.'
         ]
-        reportpath: 'target/htmlint-report.json'
+        reportpath: 'target/html-angular-validate-report.json'
     },
     files: {
       src: ['src/www/**/*.html', 'src/www/**/*.html.tmpl'],
@@ -130,4 +129,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
  * 2014-01-12  v0.2.0  Increased recognition of AngularJS caused validation erros
- * 2014-01-11  v0.1.0  Initial release (only validation, no linting features yet)
+ * 2014-01-11  v0.1.0  Initial release
