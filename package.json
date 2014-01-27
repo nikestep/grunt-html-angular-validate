@@ -1,5 +1,5 @@
 {
-  "name": "grunt-html-angular-js",
+  "name": "grunt-html-angular-validator",
   "description": "An HTML validator aimed at AngularJS projects.",
   "version": "0.2.1",
   "homepage": "https://github.com/nikestep/grunt-html-angular-validate",
