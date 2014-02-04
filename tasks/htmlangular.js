@@ -247,7 +247,7 @@ module.exports = function(grunt) {
                 proxy: options.w3cproxy,
                 callback: function (res) {
                     // Validate result
-                    if (res !== undefined && res.messages !== undefined) {
+                    if (res === undefined || res.messages === undefined) {
                         // Something went wrong
                         //   See if we should try again or fail this file and
                         //   move on
