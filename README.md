@@ -7,7 +7,9 @@ While there are other Grunt plugins that will validate HTML files, there are lac
  * Support for AngularJS attributes and tags (both from AngularJS and custom created)
  * Support for templated/fragmented HTML files
 
-This plugin looks to solve these problems and provide the value that comes with having HTML validation in the build chain. Please note that this plugin works with the [w3cjs](https://github.com/thomasdavis/w3cjs) node plugin and will send files to be validated against the W3C online validator tool.
+This plugin looks to solve these problems and provide the value that comes with having HTML validation in the build chain.
+
+Please note that this plugin works with the [w3cjs](https://github.com/thomasdavis/w3cjs) node plugin and will send files to be validated against the W3C online validator tool. W3C asks that you be considerate of their free validator service and they will block your IP if your traffic is deemed "excessive" by their servers. Such a block will automatically clear once the traffic subsides, but if your project is large enough, you may need to run your own local W3C validator server. A guide for how to do this can be found [here](https://github.com/tlvince/w3c-validator-guide).
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
