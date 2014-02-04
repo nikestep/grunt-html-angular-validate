@@ -149,7 +149,7 @@ module.exports = function(grunt) {
             // Log error message to console
             grunt.log.writeln('['.red +
                               'L'.yellow +
-                              ('' + msg.lastLine).yellow +
+                              ('' + ((file.istmpl) ? msg.lastLine - 4 : msg.lastLine)).yellow +
                               ':'.red +
                               'C'.yellow +
                               ('' + msg.lastColumn).yellow +
@@ -159,7 +159,7 @@ module.exports = function(grunt) {
             // If we are expected to write a report, add to the error array
             if (options.reportpath !== null) {
                 file.errs.push({
-                    line: msg.lastLine,
+                    line: (file.istmpl) ? msg.lastLine - 4: msg.lastLine,
                     col: msg.lastColumn,
                     msg: msg.message
                 });
