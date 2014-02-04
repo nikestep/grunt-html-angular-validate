@@ -229,12 +229,10 @@ module.exports = function(grunt) {
                     // Handle results
                     var errFound = false;
                     for (var i = 0; i < res.messages.length; i += 1) {
-                        // See if we should skip this error message
-                        if (checkRelaxed(res.messages[i].message) ||
-                            checkCustomTags(res.messages[i].message) ||
-                            checkCustomAttrs(res.messages[i].message)) {
-                            // Skip message (it is allowed)
-                        } else {
+                        // See if this error message is valid
+                        if (!checkRelaxed(res.messages[i].message) &&
+                            !checkCustomTags(res.messages[i].message) &&
+                            !checkCustomAttrs(res.messages[i].message)) {
                             // Log the error message
                             errFound = true;
                             logErrMsg(file, res.messages[i]);
