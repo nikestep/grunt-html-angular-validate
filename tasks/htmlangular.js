@@ -189,7 +189,7 @@ module.exports = function(grunt) {
 
             // Finished, let user and grunt know how it went
             if (succeedCount === fileCount) {
-                grunt.log.oklns(succeedCount + ' files lint free');
+                grunt.log.oklns(succeedCount + ' files passed validation');
                 done();
             }
             else {
