@@ -13,6 +13,7 @@ module.exports = function(grunt) {
     var w3cjs = require('w3cjs');
     var colors = require('colors');
     var tmp = require('temporary');
+    var max_validate_attempts = 3;
 
     // Prototype string with an endsWith function
     String.prototype.endsWith = function(suffix) {
@@ -73,6 +74,7 @@ module.exports = function(grunt) {
                     list.head = {
                         path: files[i],
                         istmpl: tmpl,
+                        attempts: 0,
                         next: null
                     };
                     list.tail = list.head;
@@ -81,6 +83,7 @@ module.exports = function(grunt) {
                     list.tail.next = {
                         path: files[i],
                         istmpl: tmpl,
+                        attempts: 0,
                         next: null
                     };
                     list.tail = list.tail.next;
@@ -135,7 +138,7 @@ module.exports = function(grunt) {
             if (file.seenerrs === undefined) {
                 file.seenerrs = true;
                 file.errs = [];
-                grunt.log.writeln('Linting ' +
+                grunt.log.writeln('Validating ' +
                                   file.path +
                                   ' ...' +
                                   'ERROR'.red);
@@ -159,6 +162,23 @@ module.exports = function(grunt) {
                     msg: msg.message
                 });
             }
+        };
+
+        var failFile = function(file) {
+            // Assume we have not logged errors for this file before
+            file.seenerrs = true;
+            file.errs = [{
+                line: 0,
+                col: 0,
+                msg: 'Unable to validate file'
+            }];
+
+            // Write the console
+            grunt.log.writeln('Validating ' +
+                              file.path +
+                              ' ...' +
+                              'ERROR'.red);
+            grunt.log.writeln('Unable to validate file'.yellow);
         };
 
         var finished = function() {
@@ -226,34 +246,56 @@ module.exports = function(grunt) {
                 charset: options.charset,
                 proxy: options.w3cproxy,
                 callback: function (res) {
-                    // Handle results
-                    var errFound = false;
-                    for (var i = 0; i < res.messages.length; i += 1) {
-                        // See if this error message is valid
-                        if (!checkRelaxed(res.messages[i].message) &&
-                            !checkCustomTags(res.messages[i].message) &&
-                            !checkCustomAttrs(res.messages[i].message)) {
-                            // Log the error message
-                            errFound = true;
-                            logErrMsg(file, res.messages[i]);
+                    // Validate result
+                    if (res !== undefined && res.messages !== undefined) {
+                        // Something went wrong
+                        //   See if we should try again or fail this file and
+                        //   move on
+                        if (file.attempts < max_validate_attempts) {
+                            // Increment the attempt count and try again
+                            file.attempts += 1;
+                            validate(file);
+                        } else {
+                            // Fail the file
+                            failFile(file);
+
+                            // Move on to next file or finish
+                            if (file.next === null) {
+                                finished();
+                            } else {
+                                validate(file.next);
+                            }
                         }
-                    }
-
-                    // Clean up temporary file if needed
-                    if (file.istmpl) {
-                        tfile.unlink();
-                    }
-
-                    // Increase the success count if no lint errors were found
-                    if (!errFound) {
-                        succeedCount += 1;
-                    }
-
-                    // Move on to next file or finish
-                    if (file.next === null) {
-                        finished();
                     } else {
-                        validate(file.next);
+                        // Handle results
+                        var errFound = false;
+                        for (var i = 0; i < res.messages.length; i += 1) {
+                            // See if this error message is valid
+                            if (!checkRelaxed(res.messages[i].message) &&
+                                !checkCustomTags(res.messages[i].message) &&
+                                !checkCustomAttrs(res.messages[i].message)) {
+                                // Log the error message
+                                errFound = true;
+                                logErrMsg(file, res.messages[i]);
+                            }
+                        }
+
+                        // Clean up temporary file if needed
+                        if (file.istmpl) {
+                            tfile.unlink();
+                        }
+
+                        // Increase the success count if no lint errors were found
+                        if (!errFound) {
+                            succeedCount += 1;
+                        }
+
+                        // Move on to next file or finish
+                        if (file.next === null) {
+                            finished();
+                        } else {
+                            validate(file.next);
+                        }
                     }
                 }
             });
