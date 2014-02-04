@@ -37,7 +37,9 @@ module.exports = function(grunt) {
         // Add attributes to ignore if this is for AngularJS
         if (options.angular) {
             options.customtags.push('ng-(.*)');
+            options.customtags.push('ui-(.*)');
             options.customattrs.push('ng-(.*)');
+            options.customattrs.push('ui-(.*)');
             options.customattrs.push('on');
         }
 
