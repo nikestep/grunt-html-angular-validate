@@ -29,7 +29,8 @@ module.exports = function(grunt) {
             tmplext: 'tmpl.html',
             doctype: 'HTML5',
             charset: 'utf-8',
-            reportpath: 'html-angular-validate-report.json'
+            reportpath: 'html-angular-validate-report.json',
+            w3cproxy: null
         });
 
         // Add attributes to ignore if this is for AngularJS
@@ -223,6 +224,7 @@ module.exports = function(grunt) {
                 output: 'json',
                 doctype: options.doctype,
                 charset: options.charset,
+                proxy: options.w3cproxy,
                 callback: function (res) {
                     // Handle results
                     var errFound = false;

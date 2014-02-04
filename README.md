@@ -9,7 +9,7 @@ While there are other Grunt plugins that will validate HTML files, there are lac
 
 This plugin looks to solve these problems and provide the value that comes with having HTML validation in the build chain.
 
-Please note that this plugin works with the [w3cjs](https://github.com/thomasdavis/w3cjs) node plugin and will send files to be validated against the W3C online validator tool. W3C asks that you be considerate of their free validator service and they will block your IP if your traffic is deemed "excessive" by their servers. Such a block will automatically clear once the traffic subsides, but if your project is large enough, you may need to run your own local W3C validator server. A guide for how to do this can be found [here](https://github.com/tlvince/w3c-validator-guide).
+Please note that this plugin works with the [w3cjs](https://github.com/thomasdavis/w3cjs) node plugin and will send files to be validated against the W3C online validator tool. W3C asks that you be considerate of their free validator service and they will block your IP if your traffic is deemed "excessive" by their servers. Such a block will automatically clear once the traffic subsides, but if your project is large enough, you may need to run your own local W3C validator server. A guide for how to do this can be found [here](https://github.com/tlvince/w3c-validator-guide). See the options below for pointing this plugin to a local validator service.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
@@ -93,6 +93,12 @@ Type: `String`
 Default value: `html-angular-validate-report.json`
 
 The path to write a JSON report of validation and linting output to after completion. Set to `null` to not create this file.
+
+###options.w3cproxy
+Type: `String`
+Default value: `null`
+
+The proxy to the W3C validator service. Use this when running a local instance of the W3C validator service (e.g. `http://localhost:8080`).
 
 ### Usage Examples
 
