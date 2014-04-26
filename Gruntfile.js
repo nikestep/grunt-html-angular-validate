@@ -39,7 +39,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    src: ['test/html/**/*.html']
+                    src: ['test/html/valid/**/*.html']
                 }
             }
         },
