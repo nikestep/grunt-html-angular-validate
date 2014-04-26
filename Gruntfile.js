@@ -28,7 +28,7 @@ module.exports = function(grunt) {
             tests: ['tmp'],
         },
 
-        // Configuration to be run (and then tested).
+        // Configurations to be run (and then tested).
         htmlangular: {
             default_options: {
                 options: {
@@ -41,12 +41,61 @@ module.exports = function(grunt) {
                 files: {
                     src: ['test/html/valid/**/*.html']
                 }
-            }
+            },
+            missing_wrapping: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/valid/template/valid_angular_table_row.tmpl.html']
+                }
+            },
+            missing_custom_tags: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/valid/full/valid_angular.html']
+                }
+            },
+            missing_custom_attrs: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/valid/template/valid_angular.tmpl.html']
+                }
+            },
+            template_missing_extension: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/invalid/template_missing_extension.html']
+                }
+            },
+            missing_closing_tag: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/invalid/missing_closing_tag.tmpl.html']
+                }
+            },
+            improperly_closed_tag: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/invalid/improperly_closed_tag.tmpl.html']
+                }
+            },
+            improperly_nested_tags: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/invalid/improperly_nested_tags.tmpl.html']
+                }
+            },
         },
 
         // Unit tests.
         nodeunit: {
-            tests: ['test/*_test.js'],
+            all: ['test/*_test.js'],
         },
 
     });
@@ -61,9 +110,9 @@ module.exports = function(grunt) {
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('test', ['clean', 'htmlangular', 'nodeunit']);
+    grunt.registerTask('test', ['clean', 'nodeunit:all']);
 
     // By default, lint and run all tests.
-    grunt.registerTask('default', ['jshint', 'test']);
+    grunt.registerTask('default', ['clean', 'jshint', 'test']);
 
 };
