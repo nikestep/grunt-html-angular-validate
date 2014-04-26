@@ -65,6 +65,29 @@ Default value: `[]`
 List all of the custom attributes you have created through directives and other means here. The validator will ignore warnings about
 these attributes.
 
+#### options.wrapping
+Type: `Object`
+Default value: `{}`
+
+Not all Angular templates start with tags that can be wrapped directly within the `<body>` tag. For templates like this, they first need
+to be wrapped before the regular full-document wrapping that the plugin performs. As an example, a template for a row in a table might
+look like this:
+
+    <tr>
+        <td>{name}</td>
+        <td>{birthdate}</td>
+        <td>{address}</td>
+    </tr>
+
+The entry into the `options.wrapping` plugin option would look like this:
+
+    wrapping: {
+        'tr': '<table>{0}</table>'
+    }
+
+The content of the template will be placed within the `{0}` and then the whole block will be wrapped like other templates. Note that the
+name of the tag should not be wrapped with `<` and `>`.
+
 #### options.relaxerror
 Type: `Array`
 Default value: `[]`

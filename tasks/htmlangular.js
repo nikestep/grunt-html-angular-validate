@@ -26,6 +26,7 @@ module.exports = function(grunt) {
             angular: true,
             customtags: [],
             customattrs: [],
+            wrapping: {},
             relaxerror: [],
             tmplext: 'tmpl.html',
             doctype: 'HTML5',
@@ -239,10 +240,22 @@ module.exports = function(grunt) {
                 // Store temp path as one to pass to validator
                 temppath = tfile.path;
 
+                // Create a wrapped file to pass to the validator
+                var content = grunt.file.read(file.path).trim();
+                for (var key in options.wrapping) {
+                    if (options.wrapping.hasOwnProperty(key)) {
+                        var tag = '<' + key + '>';
+                        if (content.indexOf(tag) === 0) {
+                            content = options.wrapping[key].replace('{0}', content);
+                            break;
+                        }
+                    }
+                }
+
                 // Build temporary file
                 grunt.file.write (temppath,
                                   '<!DOCTYPE html>\n<html>\n<head><title>Dummy</title></head>\n<body>\n' +
-                                  grunt.file.read(file.path) +
+                                  content +
                                   '\n</body>\n</html>');
             }
 

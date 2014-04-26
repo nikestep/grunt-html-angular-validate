@@ -33,7 +33,10 @@ module.exports = function(grunt) {
             default_options: {
                 options: {
                     customtags: ['custom-tag'],
-                    customattrs: ['fixed-div-label']
+                    customattrs: ['fixed-div-label'],
+                    wrapping: {
+                        'tr': '<table>{0}</table>'
+                    }
                 },
                 files: {
                     src: ['test/html/**/*.html']
