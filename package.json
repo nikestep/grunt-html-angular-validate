@@ -1,12 +1,12 @@
 {
   "name": "grunt-html-angular-validate",
   "description": "An HTML validator aimed at AngularJS projects.",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "homepage": "https://github.com/nikestep/grunt-html-angular-validate",
   "author": {
     "name": "Nik Estep",
     "email": "nik.estep@gmail.com",
-    "url": "http://www.nicholasestep.com"
+    "url": "http://nikestep.me"
   },
   "repository": {
     "type": "git",

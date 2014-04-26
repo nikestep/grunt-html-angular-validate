@@ -168,6 +168,7 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+ * 2014-04-26  v0.3.0  Fixed #4, Fixed #5, created unit tests
  * 2014-02-04  v0.2.3  Fixed #2, fixed silly push mistake, add ui-* to default angular tags/attrs
  * 2014-02-04  v0.2.2  Fixed #1 and added W3C proxy option
  * 2014-01-27  v0.2.1  Renamed project
