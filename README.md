@@ -94,11 +94,19 @@ Default value: `html-angular-validate-report.json`
 
 The path to write a JSON report of validation and linting output to after completion. Set to `null` to not create this file.
 
+###options.w3clocal
+Type: `String`
+Default value: `null`
+
+Use this when running a local instance of the W3C validator service (e.g. `http://localhost:8080`). Do not use in conjunction with
+`options.w3cproxy`.
+
 ###options.w3cproxy
 Type: `String`
 Default value: `null`
 
-The proxy to the W3C validator service. Use this when running a local instance of the W3C validator service (e.g. `http://localhost:8080`).
+The proxy to the W3C validator service. Use this as an alternative when running a local instance of the W3C validator service
+(e.g. `http://localhost:8080`). Do not use in conjunction with `optinos.w3clocal`.
 
 ### Usage Examples
 

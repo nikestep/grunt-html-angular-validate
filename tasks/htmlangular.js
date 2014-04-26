@@ -31,6 +31,7 @@ module.exports = function(grunt) {
             doctype: 'HTML5',
             charset: 'utf-8',
             reportpath: 'html-angular-validate-report.json',
+            w3clocal: null,
             w3cproxy: null
         });
 
@@ -46,6 +47,11 @@ module.exports = function(grunt) {
         // Delete an exist report if present
         if (options.reportpath !== null && grunt.file.exists(options.reportpath)) {
             grunt.file.delete(options.reportpath);
+        }
+
+        // Set local w3c server
+        if (options.w3clocal !== null) {
+            w3cjs.setW3cCheckUrl(options.w3clocal);
         }
 
         // Force task into async mode and grab a handle to the "done" function.
