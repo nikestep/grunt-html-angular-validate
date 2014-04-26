@@ -62,13 +62,14 @@ List all of the custom tags you have created through directives and other means 
 Type: `Array`
 Default value: `[]`
 
-List the error strings you want explicitly ignored by the validator.
+List all of the custom attributes you have created through directives and other means here. The validator will ignore warnings about
+these attributes.
 
 #### options.relaxerror
 Type: `Array`
 Default value: `[]`
 
-List all of the custom tags you have created through directives and other means here. The validator will ignore warnings about these tags.
+List the error strings you want explicitly ignored by the validator.
 
 ### options.tmplext
 Type: `String`
