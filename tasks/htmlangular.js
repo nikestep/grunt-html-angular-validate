@@ -39,7 +39,7 @@ module.exports = function(grunt) {
         // Parse wildcard '*' to RegExp '(.*)'
         ['customtags', 'customattrs'].forEach(function(prop) {
             for (var i = 0; i < options[prop].length; i += 1) {
-                options[prop][i] = options[prop][i].replace('\*', '(.*)', 'g');
+                options[prop][i] = options[prop][i].replace(/\*/g, '(.*)');
             }
         });
 
