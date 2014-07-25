@@ -142,4 +142,26 @@ exports.tests = {
             test.done();
         });
     },
+    improper_angular_operator: function(test) {
+        test.expect(1);
+        exec('grunt htmlangular:improper_angular_operator', execOptions, function(error, stdout) {
+            test.equal(
+                stdout.indexOf('& did not start a character reference. (& probably should have been escaped as &amp;.)') > -1,
+                true,
+                'found && in expression'
+            );
+            test.done();
+        });
+    },
+    improper_angular_operator_relaxed: function(test) {
+        test.expect(1);
+        exec('grunt htmlangular:improper_angular_operator_relaxed', execOptions, function(error, stdout) {
+            test.equal(
+                stdout.indexOf('& did not start a character reference. (& probably should have been escaped as &amp;.)') === -1,
+                true,
+                'relaxed ignored error'
+            );
+            test.done();
+        });
+    }
 };
