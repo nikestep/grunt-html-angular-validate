@@ -33,7 +33,7 @@ exports.tests = {
         test.expect(1);
         exec('grunt htmlangular:default_options', execOptions, function(error, stdout) {
             test.equal(
-                stdout.indexOf('5 files passed validation') > -1,
+                stdout.indexOf('6 files passed validation') > -1,
                 true,
                 'valid files pass'
             );

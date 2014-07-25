@@ -36,6 +36,13 @@ module.exports = function(grunt) {
             w3cproxy: null
         });
 
+        // Parse wildcard '*' to RegExp '(.*)'
+        ['customtags', 'customattrs'].forEach(function(prop) {
+            for (var i = 0; i < options[prop].length; i += 1) {
+                options[prop][i] = options[prop][i].replace('\*', '(.*)', 'g');
+            }
+        });
+
         // Add attributes to ignore if this is for AngularJS
         if (options.angular) {
             options.customtags.push('ng-(.*)');

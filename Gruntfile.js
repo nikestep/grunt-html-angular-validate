@@ -32,8 +32,8 @@ module.exports = function(grunt) {
         htmlangular: {
             default_options: {
                 options: {
-                    customtags: ['custom-tag'],
-                    customattrs: ['fixed-div-label'],
+                    customtags: ['custom-tag', 'custom-*'],
+                    customattrs: ['fixed-div-label', 'custom-*'],
                     wrapping: {
                         'tr': '<table>{0}</table>'
                     }
