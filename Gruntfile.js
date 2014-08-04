@@ -91,6 +91,23 @@ module.exports = function(grunt) {
                     src: ['test/html/invalid/improperly_nested_tags.tmpl.html']
                 }
             },
+            improper_angular_operator: {
+                options: {
+                },
+                files: {
+                    src: ['test/html/invalid/improper_angular_operator.tmpl.html']
+                }
+            },
+            improper_angular_operator_relaxed: {
+                options: {
+                    relaxerror: [
+                        '& did not start a character reference. (& probably should have been escaped as &amp;.)'
+                    ],
+                },
+                files: {
+                    src: ['test/html/invalid/improper_angular_operator.tmpl.html']
+                }
+            }
         },
 
         // Unit tests.

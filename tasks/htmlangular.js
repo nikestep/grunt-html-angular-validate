@@ -109,8 +109,7 @@ module.exports = function(grunt) {
 
         var checkRelaxed = function(errmsg) {
             for (var i = 0; i < options.relaxerror.length; i += 1) {
-                var re = new RegExp(options.relaxerror[i], 'g');
-                if (re.test(errmsg)) {
+                if (errmsg.indexOf(options.relaxerror[i]) !== -1) {
                     return true;
                 }
             }
