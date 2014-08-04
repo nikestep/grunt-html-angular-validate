@@ -59,12 +59,16 @@ Default value: `[]`
 
 List all of the custom tags you have created through directives and other means here. The validator will ignore warnings about these tags.
 
+You can use the `'*'` wildcard, e.g.: `'custom-tags-*'`
+
 #### options.customattrs
 Type: `Array`
 Default value: `[]`
 
 List all of the custom attributes you have created through directives and other means here. The validator will ignore warnings about
 these attributes.
+
+You can use the `*` wildcard, e.g.: `'custom-attrs-*'`
 
 #### options.wrapping
 Type: `Object`
@@ -169,6 +173,7 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+ * 2014-08-04  v0.3.5  Pulled in #7 and #8, dropped support for NodeJS 0.8
  * 2014-04-26  v0.3.0  Fixed #4, Fixed #5, created unit tests
  * 2014-02-04  v0.2.3  Fixed #2, fixed silly push mistake, add ui-* to default angular tags/attrs
  * 2014-02-04  v0.2.2  Fixed #1 and added W3C proxy option
