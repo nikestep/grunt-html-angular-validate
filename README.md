@@ -11,12 +11,18 @@ While there are other Grunt plugins that will validate HTML files, there are lac
 
 This plugin looks to solve these problems and provide the value that comes with having HTML validation in the build chain.
 
-Please note that this plugin works with the [w3cjs](https://github.com/thomasdavis/w3cjs) node plugin and will send files to be validated against the W3C online validator tool. W3C asks that you be considerate of their free validator service and they will block your IP if your traffic is deemed "excessive" by their servers. Such a block will automatically clear once the traffic subsides, but if your project is large enough, you may need to run your own local W3C validator server. A guide for how to do this can be found [here](https://github.com/tlvince/w3c-validator-guide). See the options below for pointing this plugin to a local validator service.
+Please note that this plugin works with the [w3cjs](https://github.com/thomasdavis/w3cjs) node plugin and will send files to be validated
+against the W3C online validator tool. W3C asks that you be considerate of their free validator service and they will block your IP if
+your traffic is deemed "excessive" by their servers. Such a block will automatically clear once the traffic subsides, but if your
+project is large enough, you may need to run your own local W3C validator server. A guide for how to do this can be found
+[here](https://github.com/tlvince/w3c-validator-guide). See the options below for pointing this plugin to a local validator service.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started)
+guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once
+you're familiar with that process, you may install this plugin with this command:
 
 ```shell
 npm install grunt-html-angular-validate --save-dev
@@ -142,7 +148,11 @@ The proxy to the W3C validator service. Use this as an alternative when running 
 Type: `Integer`
 Default value: `1`
 
-The maximum number of validation jobs to run concurrently. Using a number greater than `1` can greatly increase validation speed with many files, especially when running a local validation server.
+The maximum number of validation jobs to run concurrently. Using a number greater than `1` can greatly increase validation speed
+with many files, especially when running a local validation server.
+
+This should only be used when you have your own validation server. W3C will shut you down much faster if you run concurrent
+requests against them.
 
 ### Usage Examples
 
@@ -180,6 +190,7 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+ * 2014-08-08  v0.4.0  Pulled in #9 (concurrency introduced)
  * 2014-08-04  v0.3.5  Pulled in #7 and #8, dropped support for NodeJS 0.8
  * 2014-04-26  v0.3.0  Fixed #4, Fixed #5, created unit tests
  * 2014-02-04  v0.2.3  Fixed #2, fixed silly push mistake, add ui-* to default angular tags/attrs
