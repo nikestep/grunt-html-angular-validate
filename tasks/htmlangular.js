@@ -11,6 +11,7 @@
 module.exports = function(grunt) {
 
     var w3cjs = require('w3cjs');
+    var async = require('async');
     var colors = require('colors');
     var tmp = require('temporary');
     var max_validate_attempts = 3;
@@ -33,7 +34,8 @@ module.exports = function(grunt) {
             charset: 'utf-8',
             reportpath: 'html-angular-validate-report.json',
             w3clocal: null,
-            w3cproxy: null
+            w3cproxy: null,
+            concurrentJobs: 1
         });
 
         // Parse wildcard '*' to RegExp '(.*)'
@@ -65,50 +67,25 @@ module.exports = function(grunt) {
         // Force task into async mode and grab a handle to the "done" function.
         var done = this.async();
 
-        // Set up the linked list for processing
-        var fileCount = 0,
-            list = {
-                head: null,
-                tail: null
-            },
-            succeedCount = 0,
+        var files,
             reportTime = new Date();
 
-        // Iterate over all specified file groups
-        var files = grunt.file.expand(this.filesSrc);
-        for (var i = 0; i < files.length; i += 1) {
-            if (!grunt.file.exists(files[i])) {
-                // Warn that the file cannot be found
-                grunt.log.warn('Source file "' + files[i] + '" not found.');
-            } else {
-                // Detect if template file
-                var tmpl = files[i].endsWith(options.tmplext);
-
-                // Add the file to the list
-                fileCount += 1;
-                if (list.head === null) {
-                    list.head = {
-                        path: files[i],
-                        istmpl: tmpl,
-                        attempts: 0,
-                        next: null
-                    };
-                    list.tail = list.head;
-                }
-                else {
-                    list.tail.next = {
-                        path: files[i],
-                        istmpl: tmpl,
-                        attempts: 0,
-                        next: null
-                    };
-                    list.tail = list.tail.next;
-                }
+        files = grunt.file.expand(this.filesSrc).filter(function(file) {
+            if (!grunt.file.exists(file)) {
+                grunt.log.warn('Source file "' + file + '" not found.');
+                return false;
             }
-        }
+            return true;
+        }).map(function(file) {
+            return {
+                path: file,
+                istmpl: file.endsWith(options.tmplext),
+                attempts: 0
+            };
+        });
 
         // Check that we got files
-        if (fileCount === 0) { 
+        if (files.length === 0) {
             grunt.log.warn('No source files were found');
             done();
             return;
@@ -196,35 +173,33 @@ module.exports = function(grunt) {
             grunt.log.writeln('Unable to validate file'.yellow);
         };
 
-        var finished = function() {
+        var finished = function(succeedCount) {
             // Output report if necessary
             if (options.reportpath !== null) {
                 // Build report
                 var report = {
                     datetime: reportTime,
-                    fileschecked: fileCount,
+                    fileschecked: files.length,
                     filessucceeded: succeedCount,
                     failed: []
                 };
 
-                var next = list.head;
-                while (next !== null) {
-                    if (next.errs !== undefined) {
-                        report.failed.push({
-                            filepath: next.path,
-                            numerrs: next.errs.length,
-                            errors: next.errs
-                        });
-                    }
-                    next = next.next;
-                }
+                report.failed = files.filter(function(file) {
+                    return file.errs !== undefined;
+                }).map(function(file) {
+                    return {
+                        filepath: file.path,
+                        numerrs: file.errs.length,
+                        errors: file.errs
+                    };
+                });
 
                 // Write the report out
                 grunt.file.write(options.reportpath, JSON.stringify(report));
             }
 
             // Finished, let user and grunt know how it went
-            if (succeedCount === fileCount) {
+            if (succeedCount === files.length) {
                 grunt.log.oklns(succeedCount + ' files passed validation');
                 done();
             }
@@ -234,7 +209,7 @@ module.exports = function(grunt) {
             }
         };
 
-        var validate = function(file) {
+        var validate = function(file, callback) {
             var temppath = file.path;
 
             // If this is a templated file, we need to wrap it as a full
@@ -281,17 +256,11 @@ module.exports = function(grunt) {
                         if (file.attempts < max_validate_attempts) {
                             // Increment the attempt count and try again
                             file.attempts += 1;
-                            validate(file);
+                            validate(file, callback);
                         } else {
-                            // Fail the file
+                            // Fail the file and stop remaining validations
                             failFile(file);
-
-                            // Move on to next file or finish
-                            if (file.next === null) {
-                                finished();
-                            } else {
-                                validate(file.next);
-                            }
+                            callback('Unable to check file');
                         }
                     } else {
                         // Handle results
@@ -312,23 +281,17 @@ module.exports = function(grunt) {
                             tfile.unlink();
                         }
 
-                        // Increase the success count if no lint errors were found
-                        if (!errFound) {
-                            succeedCount += 1;
-                        }
-
-                        // Move on to next file or finish
-                        if (file.next === null) {
-                            finished();
-                        } else {
-                            validate(file.next);
-                        }
+                        // Callback: no halting error, success indicator
+                        callback(null, !errFound);
                     }
                 }
             });
         };
 
         // Start the validation
-        validate(list.head);
+        async.mapLimit(files, options.concurrentJobs, validate,
+        function(err, results) {
+            finished(results.filter(Boolean).length);
+        });
     });
 };

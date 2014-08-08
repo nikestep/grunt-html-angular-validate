@@ -42,6 +42,19 @@ module.exports = function(grunt) {
                     src: ['test/html/valid/**/*.html']
                 }
             },
+            default_options_concurrent: {
+                options: {
+                    customtags: ['custom-tag', 'custom-*'],
+                    customattrs: ['fixed-div-label', 'custom-*'],
+                    wrapping: {
+                        'tr': '<table>{0}</table>'
+                    },
+                    concurrentJobs: 4
+                },
+                files: {
+                    src: ['test/html/valid/**/*.html']
+                }
+            },
             missing_wrapping: {
                 options: {
                 },
