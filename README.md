@@ -7,6 +7,7 @@ While there are other Grunt plugins that will validate HTML files, there are lac
 
  * Support for AngularJS attributes and tags (both from AngularJS and custom created)
  * Support for templated/fragmented HTML files
+ * Ability to concurrently validate files for greatly increased speed
 
 This plugin looks to solve these problems and provide the value that comes with having HTML validation in the build chain.
 
@@ -136,6 +137,12 @@ Default value: `null`
 
 The proxy to the W3C validator service. Use this as an alternative when running a local instance of the W3C validator service
 (e.g. `http://localhost:8080`). Do not use in conjunction with `optinos.w3clocal`.
+
+###options.concurrentJobs
+Type: `Integer`
+Default value: `1`
+
+The maximum number of validation jobs to run concurrently. Using a number greater than `1` can greatly increase validation speed with many files, especially when running a local validation server.
 
 ### Usage Examples
 

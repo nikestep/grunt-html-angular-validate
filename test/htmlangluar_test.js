@@ -40,6 +40,17 @@ exports.tests = {
             test.done();
         });
     },
+    default_options_concurrent: function(test) {
+        test.expect(1);
+        exec('grunt htmlangular:default_options_concurrent', execOptions, function(error, stdout) {
+            test.equal(
+                stdout.indexOf('6 files passed validation') > -1,
+                true,
+                'valid files pass'
+            );
+            test.done();
+        });
+    },
     missing_wrapping: function(test) {
         test.expect(4);
         exec('grunt htmlangular:missing_wrapping', execOptions, function(error, stdout) {
