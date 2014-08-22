@@ -142,7 +142,7 @@ Type: `String`
 Default value: `null`
 
 The proxy to the W3C validator service. Use this as an alternative when running a local instance of the W3C validator service
-(e.g. `http://localhost:8080`). Do not use in conjunction with `optinos.w3clocal`.
+(e.g. `http://localhost:8080`). Do not use in conjunction with `options.w3clocal`.
 
 ###options.concurrentJobs
 Type: `Integer`
