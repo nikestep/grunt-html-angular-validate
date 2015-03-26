@@ -225,8 +225,8 @@ module.exports = function(grunt) {
                 var content = grunt.file.read(file.path).trim();
                 for (var key in options.wrapping) {
                     if (options.wrapping.hasOwnProperty(key)) {
-                        var tag = '<' + key + '>';
-                        if (content.indexOf(tag) === 0) {
+                        var tag = '^<' + key + '[^>]*>';
+                        if (content.match(tag)) {
                             content = options.wrapping[key].replace('{0}', content);
                             break;
                         }
