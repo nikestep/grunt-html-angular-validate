@@ -180,9 +180,9 @@ grunt.initConfig({
         reportpath: 'target/html-angular-validate-report.json'
     },
     files: {
-      src: ['src/www/**/*.html', 'src/www/**/*.html.tmpl'],
-    },
-  },
+      src: ['src/www/**/*.html', 'src/www/**/*.html.tmpl']
+    }
+  }
 });
 ```
 
