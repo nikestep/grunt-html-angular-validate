@@ -106,45 +106,45 @@ Default value: `[]`
 
 List the error strings you want explicitly ignored by the validator.
 
-### options.tmplext
+#### options.tmplext
 Type: `String`
 Default value: `tmpl.html`
 
 The extension of HTML files that are templated or otherwise not complete and valid HTML files (i.e. do not start and end with `<html>`). The validator will wrap these files as complete HTML pages for validation.
 
-###options.doctype
+#### options.doctype
 Type: `String`
 Default value: `HTML5`
 
 The doctype to use when validating HTML files. Set to `false` to have the validator auto-detect the doctype.
 
-###options.charset
+#### options.charset
 Type: `String`
 Default value: `utf-8`
 
 The charset to use when validating HTML files. Set to `false` to have the validator auto-detect the charset.
 
-###options.reportpath
+#### options.reportpath
 Type: `String`
 Default value: `html-angular-validate-report.json`
 
 The path to write a JSON report of validation and linting output to after completion. Set to `null` to not create this file.
 
-###options.w3clocal
+#### options.w3clocal
 Type: `String`
 Default value: `null`
 
 Use this when running a local instance of the W3C validator service (e.g. `http://localhost:8080`). Do not use in conjunction with
 `options.w3cproxy`.
 
-###options.w3cproxy
+#### options.w3cproxy
 Type: `String`
 Default value: `null`
 
 The proxy to the W3C validator service. Use this as an alternative when running a local instance of the W3C validator service
 (e.g. `http://localhost:8080`). Do not use in conjunction with `options.w3clocal`.
 
-###options.concurrentJobs
+#### options.concurrentJobs
 Type: `Integer`
 Default value: `1`
 
@@ -180,9 +180,9 @@ grunt.initConfig({
         reportpath: 'target/html-angular-validate-report.json'
     },
     files: {
-      src: ['src/www/**/*.html', 'src/www/**/*.html.tmpl'],
-    },
-  },
+      src: ['src/www/**/*.html', 'src/www/**/*.html.tmpl']
+    }
+  }
 });
 ```
 
