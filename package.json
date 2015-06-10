@@ -35,9 +35,9 @@
   },
   "dependencies": {
     "w3cjs": "~0.2.0",
-    "colors": "~1.0.3",
+    "colors": "~1.1.0",
     "temporary": "~0.0.8",
-    "async": "~0.9.0"
+    "async": "~1.2.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.5"
