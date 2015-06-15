@@ -1,5 +1,6 @@
 language: node_js
 node_js:
+  - "0.12"
   - "0.11"
   - "0.10"
 
@@ -9,7 +10,7 @@ branches:
 
 matrix:
   allow_failures:
-    - node_js: 0.11
+    - node_js: 0.12
 
 before_script:
   - npm install -g grunt-cli
