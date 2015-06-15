@@ -17,6 +17,14 @@ your traffic is deemed "excessive" by their servers. Such a block will automatic
 project is large enough, you may need to run your own local W3C validator server. A guide for how to do this can be found
 [here](https://github.com/tlvince/w3c-validator-guide). See the options below for pointing this plugin to a local validator service.
 
+## v0.5.0 Upgrade Notes
+If you are upgrading to use v0.5.0, there are a couple of things you should keep in mind. The warning messages have changed slightly
+as a result of changes in other packages used by this plugin. You may find that existing excluded messages no longer work and you'll
+need to update your gruntfile.
+
+If you are using a local version of the w3c validator, upgrading may cause an incompatibility. You should investigate this and also
+upgrading your local validator before commiting the upgrade to your project.
+
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
 
@@ -189,7 +197,14 @@ grunt.initConfig({
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
+Before submitting a pull request, please run the tests to make sure you did not break any existing functionality:
+
+```shell
+grunt test
+```
+
 ## Release History
+ * 2015-06-15  v0.5.0  Fixed #22 (using new w3c validator)
  * 2015-03-26  v0.4.1  Fixed #17
  * 2014-08-08  v0.4.0  Pulled in #9 (concurrency introduced)
  * 2014-08-04  v0.3.5  Pulled in #7 and #8, dropped support for NodeJS 0.8
