@@ -38,6 +38,9 @@ module.exports = function(grunt) {
             concurrentJobs: 1
         });
 
+        // Fix deprecation warnings until the plugin uses the new W3C endpoint
+        options.relaxerror.push('This interface to HTML5 document checking is deprecated.');
+
         // Parse wildcard '*' to RegExp '(.*)'
         ['customtags', 'customattrs'].forEach(function(prop) {
             for (var i = 0; i < options[prop].length; i += 1) {
