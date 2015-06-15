@@ -114,7 +114,7 @@ module.exports = function(grunt) {
             improper_angular_operator_relaxed: {
                 options: {
                     relaxerror: [
-                        '& did not start a character reference. (& probably should have been escaped as &amp;.)'
+                        '“&” did not start a character reference. (“&” probably should have been escaped as “&amp;”.)'
                     ],
                 },
                 files: {
