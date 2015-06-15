@@ -53,6 +53,11 @@ module.exports = function(grunt) {
             options.customattrs.push('ui-(.*)');
             options.customattrs.push('on');
         }
+		
+        // Ignore certain default warnings
+        options.relaxerror.push('The Content-Type was');
+        options.relaxerror.push('The character encoding was not declared');
+        options.relaxerror.push('Using the schema for HTML with');
 
         // Delete an exist report if present
         if (options.reportpath !== null && grunt.file.exists(options.reportpath)) {
@@ -102,9 +107,9 @@ module.exports = function(grunt) {
 
         var checkCustomTags = function(errmsg) {
             for (var i = 0; i < options.customtags.length; i += 1) {
-                var re = new RegExp('^Element ' +
+                var re = new RegExp('^Element (.?)' +
                                     options.customtags[i] +
-                                    ' not allowed as child (.*)');
+                                    '(.?) not allowed as child (.*)');
                 if (re.test(errmsg)) {
                     return true;
                 }
@@ -114,9 +119,9 @@ module.exports = function(grunt) {
 
         var checkCustomAttrs = function(errmsg) {
             for (var i = 0; i < options.customattrs.length; i += 1) {
-                var re = new RegExp('^Attribute ' +
+                var re = new RegExp('Attribute (.?)' +
                                     options.customattrs[i] +
-                                    ' not allowed on element (.*) at this point.');
+                                    '(.?) not allowed on element (.*) at this point.');
                 if (re.test(errmsg)) {
                     return true;
                 }
