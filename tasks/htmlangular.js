@@ -20,6 +20,10 @@ module.exports = function(grunt) {
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
+    
+    String.prototype.startsWith = function(prefix) {
+        return this.slice(0, prefix.length) == prefix;
+    };
 
     grunt.registerMultiTask('htmlangular', 'An HTML5 validator aimed at AngularJS projects.', function() {
         // Merge task-specific and/or target-specific options with these defaults.
@@ -30,6 +34,7 @@ module.exports = function(grunt) {
             wrapping: {},
             relaxerror: [],
             tmplext: 'tmpl.html',
+            tmplpref: 'app/views/',
             doctype: 'HTML5',
             charset: 'utf-8',
             reportpath: 'html-angular-validate-report.json',
@@ -84,7 +89,7 @@ module.exports = function(grunt) {
         }).map(function(file) {
             return {
                 path: file,
-                istmpl: file.endsWith(options.tmplext),
+                istmpl: file.startsWith(options.tmplpref) || file.endsWith(options.tmplext),
                 attempts: 0
             };
         });
