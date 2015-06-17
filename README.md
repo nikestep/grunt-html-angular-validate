@@ -18,6 +18,9 @@ project is large enough, you may need to run your own local W3C validator server
 [here](https://github.com/tlvince/w3c-validator-guide). See the options below for pointing this plugin to a local validator service.
 
 ## v0.5.0 Upgrade Notes
+Version 0.4.2 has been published as a stop-gap between versions 0.4.1 and 0.5.0. You may use this version to maintain v0.4.1-style
+comptability; however, there is no guarantee that W3C will continue to support the validation path used here.
+
 If you are upgrading to use v0.5.0, there are a couple of things you should keep in mind. The warning messages have changed slightly
 as a result of changes in other packages used by this plugin. You may find that existing excluded messages no longer work and you'll
 need to update your gruntfile.
@@ -204,6 +207,7 @@ grunt test
 ```
 
 ## Release History
+ * 2015-06-16  v0.4.2  Patched v0.4.1 to continue working in liu of upgrading v0.5.0 (code not in repository - see #23)
  * 2015-06-15  v0.5.0  Fixed #22 (using new w3c validator)
  * 2015-03-26  v0.4.1  Fixed #17
  * 2014-08-08  v0.4.0  Pulled in #9 (concurrency introduced)
