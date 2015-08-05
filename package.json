@@ -37,7 +37,7 @@
     "w3cjs": "~0.3.0",
     "colors": "~1.1.0",
     "temporary": "~0.0.8",
-    "async": "~1.2.1"
+    "async": "~1.4.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.5"
