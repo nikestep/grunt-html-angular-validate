@@ -78,7 +78,7 @@ module.exports = function(grunt) {
         var done = this.async();
 
 		// Run the validation plug in
-        validate.validate([] /*this.filesSrc*/, options).then(function(result) {
+        validate.validate(this.filesSrc, options).then(function(result) {
 			// Finished, let user and grunt know how it went
 		    if (result.allpassed) {
 				// No errors to output - task success
