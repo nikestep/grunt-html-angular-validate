@@ -11,8 +11,6 @@
 var colors = require('colors');
 var validate = require('html-angular-validate');
 
-var max_validate_attempts = 3;
-
 var writeFileErrors = function(grunt, file) {
 	// Start writing this file
 	grunt.log.writeln('Validating ' +
@@ -30,14 +28,15 @@ var writeFileErrors = function(grunt, file) {
 	}
 
 	// Write each error
-	for (var err in file.errors) {
+	for (var i = 0; i < file.errors.length; i += 1) {
+		var err = file.errors[i];
 		if (err.line !== undefined) {
 			grunt.log.writeln('['.red +
 							  'L'.yellow +
-							  err.line.yellow +
+							  ('' + err.line).yellow +
 							  ':'.red +
 							  'C'.yellow +
-							  err.col.yellow +
+							  ('' + err.col).yellow +
 							  ']'.red +
 							  ' ' +
 							  err.msg.yellow);
@@ -78,17 +77,17 @@ module.exports = function(grunt) {
         // Force task into async mode and grab a handle to the "done" function.
         var done = this.async();
 
-        validate.validate(this.filesSrc, options).then(function(result) {
-		    // Finished, let user and grunt know how it went
+		// Run the validation plug in
+        validate.validate([] /*this.filesSrc*/, options).then(function(result) {
+			// Finished, let user and grunt know how it went
 		    if (result.allpassed) {
 				// No errors to output - task success
 		        grunt.log.oklns(result.filessucceeded + ' files passed validation');
 		        done();
-		    }
-		    else {
+		    } else {
 				// Output failures - task failure
-				for (var failure in result.failed) {
-					writeFileErrors(failure);
+				for (var i = 0; i < result.failed.length; i += 1) {
+					writeFileErrors(grunt, result.failed[i]);
 				}
 
 				// Finalize output and send control back to grunt
@@ -97,8 +96,8 @@ module.exports = function(grunt) {
 		    }
         }, function(err) {
 			// Validator failure - task failure
-        	grunt.fail.error('Unable to perform validation');
-			grunt.fail.error('html-angular-validate error: ' + err);
+        	grunt.log.errorlns('Unable to perform validation');
+			grunt.log.errorlns('html-angular-validate error: ' + err);
 			done(false);
         });
     });
