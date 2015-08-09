@@ -166,6 +166,14 @@ with many files, especially when running a local validation server.
 This should only be used when you have your own validation server. W3C will shut you down much faster if you run concurrent
 requests against them.
 
+#### maxvalidateattempts
+Type: `Integer`
+Default value: `3`
+
+The maxinum number of attempts to validate a single file. Retries will be triggered if an error occurs during file validation and no
+result is retrieved. This is not the same as validation completing and the result having errors. Instead the aim is to guard against
+a flaky validator server.
+
 ### Usage Examples
 
 #### Default Options

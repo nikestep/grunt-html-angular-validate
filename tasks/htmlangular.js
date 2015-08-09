@@ -65,7 +65,8 @@ module.exports = function(grunt) {
             reportpath: 'html-angular-validate-report.json',
             w3clocal: null,
             w3cproxy: null,
-            concurrentJobs: 1
+            concurrentJobs: 1,
+			maxvalidateattempts: 3
         });
 		options.concurrentjobs = options.concurrentJobs;
 
