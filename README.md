@@ -216,6 +216,7 @@ grunt test
 ```
 
 ## Release History
+ * 2015-08-09  v0.5.1  Switched to using [html-angular-validate](https://www.npmjs.com/package/html-angular-validate) npm package
  * 2015-06-16  v0.4.2  Patched v0.4.1 to continue working in liu of upgrading v0.5.0 (code not in repository - see #23)
  * 2015-06-15  v0.5.0  Fixed #22 (using new w3c validator)
  * 2015-03-26  v0.4.1  Fixed #17
