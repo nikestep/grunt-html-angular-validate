@@ -1,5 +1,6 @@
 # grunt-html-angular-validate
 [![Build Status](https://travis-ci.org/nikestep/grunt-html-angular-validate.svg?branch=master)](https://travis-ci.org/nikestep/grunt-html-angular-validate) [![Dependency Status](https://david-dm.org/nikestep/grunt-html-angular-validate.svg)](https://david-dm.org/nikestep/grunt-html-angular-validate) [![devDependency Status](https://david-dm.org/nikestep/grunt-html-angular-validate/dev-status.svg)](https://david-dm.org/nikestep/grunt-html-angular-validate#info=devDependencies)
+[![npm Downloads Count](https://img.shields.io/npm/dm/grunt-html-angular-validate.svg)](https://github.com/nikestep/grunt-html-angular-validate)
 
 > An HTML validator aimed at AngularJS projects.
 
