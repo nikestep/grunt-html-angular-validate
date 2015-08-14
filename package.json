@@ -32,9 +32,6 @@
     "colors": "~1.1.2",
     "html-angular-validate": "~0.1.1"
   },
-  "peerDependencies": {
-    "grunt": "~0.4.5"
-  },
   "keywords": [
     "gruntplugin"
   ]
