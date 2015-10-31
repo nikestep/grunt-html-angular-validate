@@ -2,3 +2,4 @@ node_modules
 npm-debug.log
 tmp
 html-angular-validate-report.json
+html-angular-validate-report-checkstyle.xml
