@@ -63,6 +63,7 @@ module.exports = function(grunt) {
             doctype: 'HTML5',
             charset: 'utf-8',
             reportpath: 'html-angular-validate-report.json',
+			reportCheckstylePath: 'html-angular-validate-report-checkstyle.xml',
             w3clocal: null,
             w3cproxy: null,
             concurrentJobs: 1,
@@ -70,10 +71,13 @@ module.exports = function(grunt) {
         });
 		options.concurrentjobs = options.concurrentJobs;
 
-        // Delete an exist report if present
+        // Delete existing reports if present
         if (options.reportpath !== null && grunt.file.exists(options.reportpath)) {
             grunt.file.delete(options.reportpath);
         }
+		if (options.reportCheckstylePath !== null && grunt.file.exists(options.reportpath)) {
+			grunt.file.delete(options.reportCheckstylePath);
+		}
 
         // Force task into async mode and grab a handle to the "done" function.
         var done = this.async();

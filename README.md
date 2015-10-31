@@ -142,6 +142,12 @@ Default value: `html-angular-validate-report.json`
 
 The path to write a JSON report of validation and linting output to after completion. Set to `null` to not create this file.
 
+### reportCheckstylePath
+Type: `String`
+Default value: `html-angular-validate-report-checkstyle.xml`
+
+The path to write a checkstyle compatible xml report of validation and linting output to after completion. Set to `null` to not create this file.
+
 #### options.w3clocal
 Type: `String`
 Default value: `null`
