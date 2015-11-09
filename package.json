@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "colors": "~1.1.2",
-    "html-angular-validate": "~0.1.5"
+    "html-angular-validate": "~0.1.6"
   },
   "keywords": [
     "gruntplugin"
