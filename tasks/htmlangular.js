@@ -75,7 +75,7 @@ module.exports = function(grunt) {
         if (options.reportpath !== null && grunt.file.exists(options.reportpath)) {
             grunt.file.delete(options.reportpath);
         }
-		if (options.reportCheckstylePath !== null && grunt.file.exists(options.reportpath)) {
+		if (options.reportCheckstylePath !== null && grunt.file.exists(options.reportCheckstylePath)) {
 			grunt.file.delete(options.reportCheckstylePath);
 		}
 
