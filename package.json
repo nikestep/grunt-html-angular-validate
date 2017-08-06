@@ -23,10 +23,11 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~1.0.0",
+    "ansi-styles": "^3.2.0",
+    "grunt": "~1.0.1",
     "grunt-contrib-clean": "~1.1.0",
-    "grunt-contrib-nodeunit": "~1.0.0",
-    "grunt": "~1.0.1"
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-nodeunit": "~1.0.0"
   },
   "dependencies": {
     "colors": "~1.1.2",
