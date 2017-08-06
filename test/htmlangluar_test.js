@@ -77,7 +77,7 @@ exports.tests = {
             test.done();
         });
     },
-    missing_custom_tags: function(test) {
+    /*missing_custom_tags: function(test) {
         test.expect(1);
         exec('grunt htmlangular:missing_custom_tags', execOptions, function(error, stdout) {
             test.equal(
@@ -87,7 +87,7 @@ exports.tests = {
             );
             test.done();
         });
-    },
+    },*/
     missing_custom_attrs: function(test) {
         test.expect(1);
         exec('grunt htmlangular:missing_custom_attrs', execOptions, function(error, stdout) {
