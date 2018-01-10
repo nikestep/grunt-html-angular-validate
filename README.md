@@ -222,6 +222,7 @@ grunt test
 ```
 
 ## Release History
+ * 2018-01-09  v0.6.0  Updating version of [html-angular-validate](https://www.npmjs.com/package/html-angular-validate) and updating Node versions
  * 2017-08-06  v0.5.9  Updating version of [html-angular-validate](https://www.npmjs.com/package/html-angular-validate)
  * 2016-05-14  v0.5.8  Fixed #35
  * 2015-11-09  v0.5.7  Updating version of [html-angular-validate](https://www.npmjs.com/package/html-angular-validate)
